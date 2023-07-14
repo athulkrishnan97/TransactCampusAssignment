@@ -1,7 +1,9 @@
 package com.example.assignment.repo
 
+import android.util.Log
 import com.example.assignment.interfaces.ImageApiService
 import com.example.assignment.models.ImageModel
+import com.example.assignment.singletons.NetworkUtils
 import com.example.assignment.singletons.RetrofitService
 
 class ImageRepository {
@@ -12,8 +14,8 @@ class ImageRepository {
         return try {
             imageApi.getImages()
         } catch (exception: Exception) {
-            // Handle exceptions like no internet connection here.
-            // Return an empty list as a fallback.
+            NetworkUtils.networkStatus.postValue(false)
+            Log.e("Reposs","No Internet")
             emptyList()
         }
     }
