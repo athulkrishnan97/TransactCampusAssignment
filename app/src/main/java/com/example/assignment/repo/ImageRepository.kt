@@ -15,7 +15,6 @@ class ImageRepository {
             imageApi.getImages()
         } catch (exception: Exception) {
             NetworkUtils.networkStatus.postValue(false)
-            Log.e("Reposs","No Internet")
             emptyList()
         }
     }

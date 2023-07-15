@@ -1,5 +1,6 @@
 package com.example.assignment.viewmodels
 
+import PreferenceManager.Companion.DEFAULT_AUTHOR_FILTER
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,15 +16,19 @@ class MainActivityViewModel : ViewModel() {
     private val _images = MutableLiveData<List<ImageModel>>()
     val images: LiveData<List<ImageModel>> get() = _images
 
-    fun fetchImages() {
+    fun fetchImages(reverseOrder: Boolean = false) {
         CoroutineScope(Dispatchers.Main).launch {
             val fetchedImages = repository.getImages()
-            _images.value = fetchedImages
+            _images.value = if (reverseOrder) {
+                fetchedImages.sortedByDescending { it.author }
+            } else {
+                fetchedImages
+            }
         }
     }
 
     fun getAuthors(images: List<ImageModel>): List<String> {
-        val authors = mutableListOf("None")
+        val authors = mutableListOf(DEFAULT_AUTHOR_FILTER)
         authors.addAll(images.map { it.author }.distinct())
         return authors
     }

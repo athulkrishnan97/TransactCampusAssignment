@@ -1,5 +1,8 @@
 package com.example.assignment.adapters
 
+/**
+ * This class contains the adapter for the recycler view on the main app page.
+ */
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.assignment.R
 import com.example.assignment.models.ImageModel
+import com.example.assignment.singletons.NetworkUtils
 import com.squareup.picasso.Picasso
 
 
@@ -23,6 +27,7 @@ class ImageAdapter(private var images: List<ImageModel>) : RecyclerView.Adapter<
         return ImageViewHolder(view)
     }
 
+    var picassoErrorDetected = false
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         val currentItem = images[position]
         holder.textView.text = currentItem.author
@@ -31,7 +36,17 @@ class ImageAdapter(private var images: List<ImageModel>) : RecyclerView.Adapter<
             .load(currentItem.download_url)
             .resize(800,400)
             .centerCrop()
-            .into(holder.imageView)
+            .into(holder.imageView, object : com.squareup.picasso.Callback {
+                override fun onSuccess() {
+                    picassoErrorDetected = false
+                }
+                override fun onError(e: Exception) {
+                    if (!picassoErrorDetected){
+                        NetworkUtils.networkStatus.postValue(false)
+                        picassoErrorDetected = true
+                    }
+                }
+            })
     }
 
     override fun getItemCount(): Int {

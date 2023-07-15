@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Assignment</string>
+    <string name="reverse_order">Sort in reverse alphabetical order</string>
+    <string name="ask_to_reverse_order">Do you want to sort in reverse alphabetical order?</string>
+    <string name="ask_to_set_normal_order">Do you want to sort in alphabetical order?</string>
+    <string name="ok">OK</string>
+    <string name="yes">yes</string>
+    <string name="no">No</string>
+    <string name="ask_for_retry">Do you want to retry</string>
+    <string name="network_failed">Network Failed</string>
+    <string name="retry">Retry</string>
+    <string name="close">Close</string>
+    <string name="filter_by_author">Filter By Author:</string>
 </resources>
